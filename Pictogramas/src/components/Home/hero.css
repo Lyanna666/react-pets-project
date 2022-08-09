@@ -1,0 +1,37 @@
+.hero-div {
+  background-color: #eaeaea;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  min-height: 50vh;
+  background-image: url(../../../public/Resources/hero-image-PNG.png);
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-position: bottom;
+}
+
+.hero-div h1 {
+  white-space: pre;
+  margin: 1rem;
+}
+
+.hero-div > div {
+  margin-top: 1rem;
+}
+
+.hero-div .link-button {
+  display: block;
+  min-width: 20rem;
+  margin: auto;
+}
+
+.hero-div p:first-of-type {
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.hero-div p:last-of-type {
+  margin-bottom: 2rem;
+}

@@ -1,0 +1,135 @@
+header {
+  background-color: white;
+  width: 100%;
+  border-bottom: 0.065rem solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0.01rem 0.01rem 0.3rem 0.03rem rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+}
+
+header nav > div {
+  display: flex;
+  align-items: center;
+}
+
+header li,
+header .link {
+  margin-right: 1rem;
+  font-weight: 400;
+}
+
+header a,
+header .link:first-of-type {
+  font-weight: 300;
+}
+
+header > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header picture {
+  margin: 0 4rem;
+}
+
+header button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+header button:hover {
+  color: var(--green);
+}
+
+header .link-login {
+  white-space: pre;
+  margin: 0 4rem 0 1rem;
+}
+
+.menu-languages li {
+  float: left;
+  position: relative;
+  padding: 0.3rem;
+}
+
+.menu-languages li:hover > ul {
+  display: block;
+}
+
+/* Sub-menu */
+.menu-languages ul {
+  background-color: rgb(255, 255, 255);
+  margin: 0;
+  padding: 0.1rem;
+  display: none;
+  position: absolute;
+  top: 1.8rem;
+  left: 0;
+  border-radius: 0.2rem;
+  border: 0.064rem solid lightgray;
+  box-shadow: 0.01rem 0.01rem 0.3rem 0.03rem rgba(0, 0, 0, 0.2);
+}
+
+/* .menu-languages ul li {
+  margin: 0;
+  padding: 0;
+  display: block;
+} */
+
+.menu-languages ul li {
+  padding: 1rem;
+  height: auto;
+  display: block;
+  white-space: nowrap;
+  float: none;
+  border-bottom: 1px solid lightgray;
+}
+
+.menu-languages ul li:last-of-type {
+  border: none;
+}
+
+.btn-menu {
+  display: none;
+}
+
+/* Esto dibuja la flecha de arriba */
+.menu-languages ul li:first-child button:after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: -9px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid lightgray;
+}
+
+@media screen and (max-width: 1024px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header > button {
+    font-size: 1.5rem;
+  }
+
+  header nav {
+    display: none;
+  }
+
+  .btn-menu {
+    display: inline;
+  }
+}

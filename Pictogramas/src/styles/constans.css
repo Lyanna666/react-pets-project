@@ -1,0 +1,20 @@
+:root {
+  /* Colores */
+  --black: #1c1c20;
+  --white: #ffffff;
+
+  --green: #00ba78;
+  --dark-green: #298039;
+  --blue: #0066ff;
+  --dark-blue: #2b5294;
+  --red: #db3236;
+  --dark-red: #9e2427;
+
+  --backgroundGrayColor: #eaeaea;
+
+  --base-space: 1.5rem;
+
+  /* Media Query */
+  --mobile: 480px;
+  --tablet: 1024px;
+}

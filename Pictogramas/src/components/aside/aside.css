@@ -1,0 +1,145 @@
+:root {
+  /* Colores */
+  --black: #1c1c20;
+  --white: #ffffff;
+
+  --green: #00ba78;
+  --dark-green: #298039;
+  --blue: #0066ff;
+  --dark-blue: #2b5294;
+  --red: #db3236;
+  --dark-red: #9e2427;
+
+  --backgroundGrayColor: #eaeaea;
+  --backgroundAside: #273343;
+
+  --base-space: 1rem;
+
+  /* Media Query */
+  --mobile: 480px;
+  --tablet: 1024px;
+}
+
+.aside {
+  height: 100%;
+  width: 14.3rem;
+  color: var(--white);
+  border-radius: 0.5rem;
+  margin: var(--base-space);
+  border-bottom: 0.065rem solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0.01rem 0.01rem 0.3rem 0.03rem rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  background-color: var(--backgroundAside);
+}
+
+.aside__header {
+  padding: 20px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.aside__header picture {
+  border: 2px solid var(--white);
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.aside__header picture img {
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+  border-radius: 50%;
+}
+
+.aside__title {
+  display: flex;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.aside__title-text {
+  margin-left: 10px;
+}
+
+.aside__body {
+  padding: 20px;
+}
+
+.aside__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.aside__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.aside__enlaces {
+  color: var(--white);
+}
+
+span img {
+  filter: invert(1) brightness(100) grayscale(1);
+}
+
+span img:hover {
+  filter: invert(1) brightness(100) grayscale(1);
+  transform: scale(1.5);
+}
+
+.aside_tools {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+}
+
+.aside__footer {
+  padding: 20px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.aside__button {
+  width: 100%;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid #e6e6e6;
+}
+
+@media (max-width: 850px) {
+  .aside {
+    display: inline-block;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .aside__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+}
