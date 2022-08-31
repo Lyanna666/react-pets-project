@@ -1,26 +1,38 @@
-header {
+header .container-size {
+  text-align: left;
+}
+
+header .bg-light .container-size {
+  text-align: right;
+}
+
+header .bg-light {
+  background-color: rgba(240, 243, 242, 1) !important;
+}
+
+header .main-header {
   background-color: white;
   width: 100%;
-  border-bottom: 0.065rem solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0.01rem 0.01rem 0.3rem 0.03rem rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+header .header-login > a {
+  text-align: right;
+  display: block;
 }
 
 header nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   flex-grow: 1;
-}
-
-header nav > div {
-  display: flex;
   align-items: center;
 }
 
 header li,
 header .link {
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   font-weight: 400;
 }
 
@@ -35,9 +47,51 @@ header > div {
   align-items: center;
 }
 
-header picture {
-  margin: 0 4rem;
+header h1 {
+  font-weight: 300;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  margin: auto;
 }
+
+header h1 span {
+  border: 2px solid black;
+  padding: 0.2rem;
+  border-radius: 50%;
+  background: black;
+  height: 2.2rem;
+  width: 2rem;
+  display: block;
+  margin: auto;
+  margin: 0.07rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header h1 picture {
+  height: 90%;
+  width: 90%;
+}
+
+header h1 picture img:hover {
+  transform: scale(1);
+}
+
+header .header-login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+/* header picture {
+  margin: 0 5rem 0 0;
+  max-width: 10rem;
+} */
 
 header button {
   background-color: transparent;
@@ -50,68 +104,11 @@ header button:hover {
 }
 
 header .link-login {
-  white-space: pre;
-  margin: 0 4rem 0 1rem;
-}
-
-.menu-languages li {
-  float: left;
-  position: relative;
-  padding: 0.3rem;
-}
-
-.menu-languages li:hover > ul {
-  display: block;
-}
-
-/* Sub-menu */
-.menu-languages ul {
-  background-color: rgb(255, 255, 255);
-  margin: 0;
-  padding: 0.1rem;
-  display: none;
-  position: absolute;
-  top: 1.8rem;
-  left: 0;
-  border-radius: 0.2rem;
-  border: 0.064rem solid lightgray;
-  box-shadow: 0.01rem 0.01rem 0.3rem 0.03rem rgba(0, 0, 0, 0.2);
-}
-
-/* .menu-languages ul li {
-  margin: 0;
-  padding: 0;
-  display: block;
-} */
-
-.menu-languages ul li {
-  padding: 1rem;
-  height: auto;
-  display: block;
-  white-space: nowrap;
-  float: none;
-  border-bottom: 1px solid lightgray;
-}
-
-.menu-languages ul li:last-of-type {
-  border: none;
+  margin: 0.2rem;
 }
 
 .btn-menu {
   display: none;
-}
-
-/* Esto dibuja la flecha de arriba */
-.menu-languages ul li:first-child button:after {
-  content: '';
-  position: absolute;
-  left: 10%;
-  top: -9px;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 8px solid lightgray;
 }
 
 @media screen and (max-width: 1024px) {

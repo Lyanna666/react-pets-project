@@ -59,67 +59,154 @@ const Header = () => {
   return (
     <>
       <header id="header">
-        <div>
-          <picture>
-            <img
-              src="./Resources/Logo-black.png"
-              alt={context.language.NAME_APP}
-            />
-          </picture>
-          <nav>
-            <ul>
-              <li>
-                <Link className="link" to={'/'}>
-                  {context.language.HEADER_NAV_HOME}
-                </Link>
-              </li>
-              <li>
-                <Link className="link" to={'/#how-does-it-works'}>
-                  {context.language.HEADER_NAV_HOW_DOES_IT_WORKS}
-                </Link>
-              </li>
-              <li>
-                <Link className="link" to={'/#users'}>
-                  {context.language.HEADER_NAV_USERS}
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <ul className="menu-languages">
+        {/* Idiomas */}
+        <div class="bg-light py-1">
+          <div class="container-size">
+            <div class="dropdown">
+              <button
+                class="dropdown-toggle text-decoration-none text-muted show"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {context.language.HEADER_LANGUAGE}
+              </button>
+              <ul class="dropdown-menu">
                 <li>
-                  <button type="button">
-                    {context.language.HEADER_LANGUAGE}
+                  <button
+                    id={context.language.ES_ID}
+                    class="dropdown-item"
+                    type="button"
+                    onClick={context.changeLanguage}
+                  >
+                    {context.language.ES}
                   </button>
-                  <ul>
-                    <li>
-                      <button
-                        id={context.language.ES_ID}
-                        type="button"
-                        onClick={context.changeLanguage}
-                      >
-                        {context.language.ES}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        id={context.language.EN_ID}
-                        type="button"
-                        onClick={context.changeLanguage}
-                      >
-                        {context.language.EN}
-                      </button>
-                    </li>
-                  </ul>
+                </li>
+                <li>
+                  <button
+                    id={context.language.EN_ID}
+                    type="button"
+                    class="dropdown-item"
+                    onClick={context.changeLanguage}
+                  >
+                    {context.language.EN}
+                  </button>
                 </li>
               </ul>
+            </div>
+          </div>
+        </div>
+        <div class="container-size main-header">
+          {/* Logo */}
+          <Link className="link link-login" to={'/'}>
+            <h1>
+              AD
+              <span>
+                <picture>
+                  <img src="./Resources/pets_FILL0_wght400_GRAD0opsz48.png" />
+                </picture>
+              </span>
+              GTA
+            </h1>
+          </Link>
+          <nav>
+            {/* <picture>
+            <img
+              src="./Resources/Logo-PERRO.png"
+              alt={context.language.NAME_APP}
+            />
+          </picture> */}
+            {/* NavBar */}
+
+            <div class="container-fluid">
+              <form class="container-fluid">
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-search"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control "
+                    placeholder="Buscar"
+                    aria-label="Buscar"
+                    aria-describedby="basic-addon1"
+                  />
+                  <button
+                    type="button"
+                    class="btn  btn-outline-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#locationModal"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-geo-alt-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                    </svg>
+                    Location
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="header-login">
               {/* Si el usuario no ha iniciado sesion  muestro un link que permite navegar al registro/login*/}
               {!user ? (
-                <Link className="link link-login" to={'/login'}>
-                  {context.language.HEADER_NAV_LOGIN}
-                </Link>
+                <>
+                  <Link className="link link-login" to={'/'}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-heart"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                  </Link>
+                  <Link className="link link-login" to={'/login'}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-user"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </Link>
+                </>
               ) : (
-                // Si ya ha inciado sesión muestro un link que navega a dashboard
-                <Link className="link link-login" to={'/dashboard'}>
+                <Link
+                  className="link link-login"
+                  to={
+                    '/dashboard' // Si ya ha inciado sesión muestro un link que navega a dashboard
+                  }
+                >
                   {`${context.language.DASHBOARD} \n${user}`}
                 </Link>
               )}
@@ -130,6 +217,7 @@ const Header = () => {
           ☰
         </button>
       </header>
+
       {/* Si el estado del menú es true lo muestro, si no, no */}
       {openedMenu ? <HeaderMenu /> : <></>}
     </>
