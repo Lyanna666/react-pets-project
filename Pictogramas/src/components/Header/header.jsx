@@ -140,11 +140,11 @@ const Header = () => {
                     aria-label="Buscar"
                     aria-describedby="basic-addon1"
                   />
-                  <button
-                    type="button"
+                  <Link
                     class="btn  btn-outline-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#locationModal"
+                    to={'/subida'}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,10 @@ const Header = () => {
                       <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
                     </svg>
                     Location
-                  </button>
+                  </Link>
+                  <Link className="link link-login" to={'/subida'}>
+                    Link{' '}
+                  </Link>
                 </div>
               </form>
             </div>
@@ -212,6 +215,195 @@ const Header = () => {
               )}
             </div>
           </nav>
+        </div>
+        <div>
+          <div class="container-size container-navbar-nav">
+            <nav class="navbar-subnav">
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown dropdown-fullwidth">
+                  <a
+                    class="btn btn-primary px-6"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Animales en adopción
+                  </a>
+                  <div class="dropdown-menu pb-0">
+                    <div class="row p-2 p-lg-4">
+                      <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                        <h6 class="text-primary ps-3">
+                          <span class="icons-menu-span">
+                            <i class="fa-solid fa-dog" />
+                          </span>
+                          Perros
+                        </h6>
+                        <a
+                          class="dropdown-item important-link"
+                          href="../pages/shop-grid.html"
+                        >
+                          Casos urgentes
+                        </a>
+                        <a
+                          class="dropdown-item important-link"
+                          href="../pages/shop-grid.html"
+                        >
+                          Perros con necesidades especiales
+                        </a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Cachorros en adopción
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Acogida temporal
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Perros de servicio jubilados
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Todos los perros en adopción
+                        </a>
+                      </div>
+                      <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                        <h6 class="text-primary ps-3">
+                          {' '}
+                          <span class="icons-menu-span">
+                            <i class="fa-solid fa-cat" />
+                          </span>
+                          Gatos
+                        </h6>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Casos urgentes
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          {' '}
+                          Gatos con necesidades especiales
+                        </a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Acogida temporal
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          {' '}
+                          Todos los gatos disponibles
+                        </a>
+                      </div>
+                      <div class="col-lg-3 col-12 mb-4 mb-lg-0">
+                        <h6 class="text-primary ps-3">
+                          <span class="icons-menu-span">
+                            <i class="fa-solid fa-fish" />
+                          </span>
+                          Otros
+                        </h6>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Casos urgentes
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Animales con necesidades especiales
+                        </a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Aves
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Roedores y pequeños mamíferos
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Reptiles y anfibios
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Animales de granja
+                        </a>
+                        <a class="dropdown-item" href="../pages/shop-grid.html">
+                          Animales exóticos
+                        </a>
+                      </div>
+                      <div class="col-lg-3 col-12 mb-4 mb-lg-0 ">
+                        <div class="card border-0">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7uxCfZU_gGJX_Bxxt_eBYtBypnRO2ViAhS83nnvTYRewu3N-0Sett8dmcc-a68LuFjyA&usqp=CAU"
+                            alt="Imagen refugio de animales"
+                            class="img-fluid rounded-3"
+                          />
+                          <div class="position-absolute ps-6 mt-8 div-donate">
+                            <h5 class=" mb-0 ">
+                              ¿Quieres ayudar? <br />
+                              ¡Haz una donación!
+                            </h5>
+                            <a href="#" class="btn btn-primary btn-sm mt-3">
+                              Donar
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Información
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Preguntas frecuentes
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Sobre nosotros
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Contacto
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Protectoras de animales
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Información importante
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Ver protectoras
+                      </a>
+                    </li>
+                    <hr class="dropdown-divider" />
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Registro para protectoras
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
         <button onClick={onClickMenu} className="btn-menu">
           ☰

@@ -48,7 +48,7 @@ header > div {
 }
 
 header h1 {
-  font-weight: 300;
+  font-weight: 700;
   align-self: center;
   display: flex;
   align-items: center;
@@ -70,6 +70,53 @@ header h1 span {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.icons-menu-span {
+  margin-right: 0.4rem;
+}
+
+header {
+  border-bottom: var(--bs-border-width) var(--bs-border-style)
+    var(--bs-border-color) !important;
+}
+
+.navbar-subnav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.navbar-subnav .navbar-nav {
+  margin: 0.4rem 1rem 0.5rem 0rem;
+  font-size: 0.9rem;
+  font-weight: 200;
+}
+
+.div-image-donation {
+  display: flex;
+  align-items: center;
+}
+
+.div-donate {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.div-donate h5 {
+  font-weight: 700;
+  text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff, 1px 1px #fff,
+    -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+.dropdown-fullwidth .dropdown-menu {
+  width: 100vw;
+  left: 0;
+  margin: 1.25rem auto;
+  max-width: 1320px;
+  padding: 1rem 0;
+  right: 0;
+  top: 32px;
 }
 
 header h1 picture {
@@ -109,6 +156,57 @@ header .link-login {
 
 .btn-menu {
   display: none;
+}
+
+.dog-img {
+  object-fit: cover;
+}
+
+.svg-mascota {
+  pointer-events: none;
+}
+
+.usuario-img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.usuario-img-div {
+  position: relative;
+  margin-top: -5rem;
+}
+
+.usuario-banner {
+  background-image: url(https://cdn.hovia.com/app/uploads/Blue-Bulldog-and-Sausage-Dog-Pattern-Pet-Wallpaper-Mural-Plain.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 15rem;
+}
+
+.custom-btn-img {
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+}
+
+.usuario-img-div input[type='file'] {
+  display: none;
+}
+.custom-file-upload {
+  cursor: pointer;
+}
+
+.btn-danger-soft {
+  color: #d6293e;
+  background-color: rgba(214, 41, 62, 0.1);
+}
+
+.btn-danger-soft:hover {
+  color: #fff;
+  background-color: #d6293e;
 }
 
 @media screen and (max-width: 1024px) {

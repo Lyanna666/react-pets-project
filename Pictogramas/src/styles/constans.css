@@ -12,6 +12,13 @@
 
   --backgroundGrayColor: #eaeaea;
 
+  --bs-primary: #0aad0a;
+  --bs-secondary: #5c6c75;
+  --bs-success: #198754;
+  --bs-info: #016bf8;
+  --bs-warning: #ffc107;
+  --bs-danger: #db3030;
+
   --base-space: 1.5rem;
 
   /* Media Query */

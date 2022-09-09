@@ -4,6 +4,9 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import AppContext from './AppContext';
 
 import Home from './pages/Home';
+import Gallery from './pages/Gallery';
+import Subidas from './pages/Subida';
+
 import Login from './pages/Login';
 import Register from './pages/Registrer';
 import Dashboard from './pages/Dashboard';
@@ -54,7 +57,8 @@ const App = () => {
   return (
     <AppContext.Provider value={userSettings}>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Gallery />} />
+        <Route exact path="/subida" element={<Subidas />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/registrer" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
