@@ -7,6 +7,28 @@ const urlAll = '/all/';
 const urlBest = '/bestsearch/';
 const urlSearch = '/search/';
 
+export async function fetchTodasLasRazas() {
+  try {
+    const response = await fetch(
+      'https://razas-de-perros.p.rapidapi.com/TypeOfBreeds',
+      {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key':
+            'b112c1e823msh16c32b1aa504649p12bf44jsn13f26dd51d93',
+          'X-RapidAPI-Host': 'razas-de-perros.p.rapidapi.com',
+        },
+      },
+    );
+    const pictograms = await response.json();
+    return pictograms;
+  } catch (error) {
+    console.error({ error });
+    return error;
+    // alert('Ha ocurrido un error:', error);
+  }
+}
+
 //Cargar todos los pictogramas
 export async function fetchAllPictograms(language) {
   try {

@@ -185,42 +185,64 @@ const Animales = props => {
                 <div class={vista === 1 ? 'row g-0' : 'card-img-top'}>
                   <div class={vista === 1 ? 'col-md-4' : ''}>
                     <div
-                      id={'id-' + mascota.doc.key.path.segments[6]}
+                      id={
+                        mascota.doc.key.path.segments[6]
+                          ? 'id-' + mascota.doc.key.path.segments[6]
+                          : ''
+                      }
                       class="carousel slide"
                       data-bs-ride="carousel"
                     >
                       <div class="carousel-inner">
-                        {mascota.doc.data.value.mapValue.fields.img.arrayValue.values.map(
-                          (imagenMascota, index) => {
-                            return (
-                              <>
-                                <div
-                                  class={
-                                    index === 0
-                                      ? 'carousel-item active'
-                                      : 'carousel-item'
-                                  }
-                                  style={{ height: '15rem' }}
-                                >
-                                  {vista === 1 ? (
-                                    <>
+                        {mascota.doc.data.value.mapValue.fields.img.arrayValue
+                          .values ? (
+                          mascota.doc.data.value.mapValue.fields.img.arrayValue.values.map(
+                            (imagenMascota, index) => {
+                              return (
+                                <>
+                                  {}
+                                  <div
+                                    class={
+                                      index === 0
+                                        ? 'carousel-item active'
+                                        : 'carousel-item'
+                                    }
+                                    style={{ height: '15rem' }}
+                                  >
+                                    {vista === 1 ? (
+                                      <>
+                                        <img
+                                          src={imagenMascota.stringValue}
+                                          class="d-block w-100 h-100 dog-img"
+                                          alt="..."
+                                        />
+                                      </>
+                                    ) : (
                                       <img
                                         src={imagenMascota.stringValue}
-                                        class="d-block w-100 h-100  dog-img"
+                                        class="d-block w-100 h-100 dog-img"
                                         alt="..."
                                       />
-                                    </>
-                                  ) : (
-                                    <img
-                                      src={imagenMascota.stringValue}
-                                      class="d-block w-100 h-100  dog-img"
-                                      alt="..."
-                                    />
-                                  )}
-                                </div>
-                              </>
-                            );
-                          },
+                                    )}
+                                  </div>
+                                </>
+                              );
+                            },
+                          )
+                        ) : (
+                          <>
+                            {' '}
+                            <div
+                              class="carousel-item active"
+                              style={{ height: '15rem' }}
+                            >
+                              <img
+                                src="https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg"
+                                class="d-block w-100 h-100 dog-img"
+                                alt="..."
+                              />
+                            </div>
+                          </>
                         )}
 
                         {/* <div class="carousel-item active">
@@ -296,10 +318,10 @@ const Animales = props => {
                         href=""
                         class="fw-light fs-7 w-100 text-decoration-none text-muted mb-3"
                       >
-                        {
-                          mascota.doc.data.value.mapValue.fields.raza.mapValue
-                            .fields.nombre.stringValue
-                        }
+                        {mascota.doc.data.value.mapValue.fields.raza
+                          ? mascota.doc.data.value.mapValue.fields.raza
+                              .stringValue
+                          : ''}
                       </a>
                       <h5 class="card-title fw-bold">
                         {
@@ -327,18 +349,12 @@ const Animales = props => {
                           </td>
                         </tr>
                         <tr>
-                          <th class="fw-normal">Edad:</th>
+                          <th class="fw-normal">Año de nacimiento:</th>
                           <td class="fw-light">
-                            {
-                              mascota.doc.data.value.mapValue.fields.Edad
-                                .mapValue.fields.Edad.stringValue
-                            }{' '}
-                            (
-                            {
-                              mascota.doc.data.value.mapValue.fields.Edad
-                                .mapValue.fields.Años.stringValue
-                            }
-                            )
+                            {mascota.doc.data.value.mapValue.fields.fechaNac
+                              ? mascota.doc.data.value.mapValue.fields.fechaNac
+                                  .stringValue
+                              : ''}
                           </td>
                         </tr>
                       </table>

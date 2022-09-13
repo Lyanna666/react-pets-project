@@ -209,6 +209,20 @@ header .link-login {
   background-color: #d6293e;
 }
 
+.btn-success-soft {
+  color: #198754;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.btn-success-soft:hover {
+  background-color: #198754;
+  color: white;
+}
+
+.color-success {
+  color: #198754;
+}
+
 @media screen and (max-width: 1024px) {
   header {
     display: flex;

@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from 'react';
 // import styled, { keyframes } from 'styled-components';
 import AppContext from '../../AppContext';
 
+import { fetchTodasLasRazas } from '../../api/api-rest';
+
 //Firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -18,19 +20,23 @@ const Filtros = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchRazas();
+    getRazas();
   }, []);
 
-  // Firebase
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      setUsuario(user.uid);
-      console.log('Usuario:', usuario);
-    } else {
-      setUsuario(null);
-      console.log('Usuario no registrado');
-    }
-  });
+  useEffect(() => {
+    setIsLoading(true);
+    firebase.auth().onAuthStateChanged(u => {
+      if (u) {
+        setUsuario(u.uid);
+        console.log('Usuario:', u);
+
+        setIsLoading(false);
+      } else {
+        setUsuario(null);
+        setIsLoading(false);
+      }
+    });
+  }, []);
 
   function fetchRazas() {
     setIsLoading(true);
@@ -44,6 +50,26 @@ const Filtros = props => {
       .catch(e => {
         setIsLoading(false);
         alert('Error al cargar las razas: ' + e);
+      });
+  }
+
+  function getRazas() {
+    setIsLoading(true);
+    fetchTodasLasRazas()
+      .then(data => {
+        console.log('Data Razas api', data);
+        if (Array.isArray(data)) {
+          setRazas(data);
+          setIsLoading(false);
+          fetchPerros();
+        } else {
+          // setError(data);
+          setIsLoading(false);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        setIsLoading(false);
       });
   }
 
@@ -150,19 +176,8 @@ const Filtros = props => {
                       <option value="">Indiferente</option>
 
                       {razas.map(raza => (
-                        <option
-                          data-tokens={
-                            raza.doc.data.value.mapValue.fields.nombre
-                              .stringValue
-                          }
-                          value={
-                            raza.doc.data.value.mapValue.fields.key.stringValue
-                          }
-                        >
-                          {
-                            raza.doc.data.value.mapValue.fields.nombre
-                              .stringValue
-                          }
+                        <option data-tokens={raza.name} value={raza.name}>
+                          {raza.name}
                         </option>
                       ))}
                     </select>

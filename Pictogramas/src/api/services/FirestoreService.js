@@ -1,4 +1,5 @@
 import { db } from '../firestore';
+import firebase from 'firebase/compat/app';
 
 // Razas de perros
 function getRazas() {
@@ -23,6 +24,52 @@ function getPerros() {
       .get()
       .then(perros => {
         resolve(perros);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+
+function addPerro(perro) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      nombre: perro.nombre,
+      fechaNac: perro.fechaNac,
+      Sexo: perro.sexo,
+      Tamaño: perro.tamaño,
+      img: perro.img,
+      localizacion: perro.localizacion,
+      raza: perro.raza,
+      descripcion: perro.descripcion,
+      ne: perro.ne,
+      urgente: perro.urgente,
+      user: perro.user,
+      tlf: perro.tlf,
+      email: perro.email,
+    };
+    db.collection('perros')
+      .add(data)
+      .then(docRef => {
+        resolve(docRef);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+
+//Imagenes
+
+function updateFotosPerros(fotoURL, idPerro) {
+  return new Promise((resolve, reject) => {
+    const data = { img: firebase.firestore.FieldValue.arrayUnion(fotoURL) };
+
+    db.collection('perros')
+      .doc(idPerro)
+      .update(data)
+      .then(() => {
+        resolve();
       })
       .catch(e => {
         reject(e);
@@ -290,4 +337,6 @@ export default {
 
   getRazas,
   getPerros,
+  addPerro,
+  updateFotosPerros,
 };

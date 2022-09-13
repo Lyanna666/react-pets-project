@@ -79,5 +79,6 @@ const SpinnerContainer = styled.div`
 const SpinnerH1 = styled.h1`
   color: white;
   font-weight: 600;
+  font-size: 1.5rem;
   text-align: center;
 `;
