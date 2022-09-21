@@ -58,9 +58,9 @@ const Header = () => {
 
   return (
     <>
-      <header id="header">
+      <header id="header" className="">
         {/* Idiomas */}
-        <div class="bg-light py-1">
+        <div class="bg-light py-1 border-bottom">
           <div class="container-size">
             <div class="dropdown">
               <button
@@ -98,12 +98,15 @@ const Header = () => {
         </div>
         <div class="container-size main-header">
           {/* Logo */}
-          <Link className="link link-login" to={'/'}>
+          <Link className="link link-login" to={'/perros'}>
             <h1>
               AD
               <span>
                 <picture>
-                  <img src="./Resources/pets_FILL0_wght400_GRAD0opsz48.png" />
+                  <img
+                    src="https://firebasestorage.googleapis.com/v0/b/adogta-2219f.appspot.com/o/pets_FILL0_wght400_GRAD0opsz48.png?alt=media&token=1cd529e9-0568-4a92-bdf5-3180587b671c"
+                    alt=""
+                  />
                 </picture>
               </span>
               GTA
@@ -119,7 +122,7 @@ const Header = () => {
             {/* NavBar */}
 
             <div class="container-fluid">
-              <form class="container-fluid">
+              {/* <form class="container-fluid">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg
@@ -159,7 +162,7 @@ const Header = () => {
                     Location
                   </Link>
                 </div>
-              </form>
+              </form> */}
             </div>
 
             <div class="header-login">

@@ -29,9 +29,15 @@ function Gallery() {
 
   return (
     <>
-      <Header />
-      <Filtros />
-      <Footer />
+      <div className="main-bg" />
+      <div
+        className="d-flex flex-column justify-content-between"
+        style={{ minHeight: '100vh' }}
+      >
+        <Header />
+        <Filtros />
+        <Footer />
+      </div>
     </>
   );
 }

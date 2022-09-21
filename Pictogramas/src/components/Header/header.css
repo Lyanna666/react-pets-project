@@ -6,12 +6,16 @@ header .bg-light .container-size {
   text-align: right;
 }
 
+header {
+  /* background-color: white; */
+}
+
 header .bg-light {
   background-color: rgba(240, 243, 242, 1) !important;
 }
 
 header .main-header {
-  background-color: white;
+  /* background-color: white; */
   width: 100%;
   padding: 0.5rem;
   display: flex;
@@ -77,8 +81,8 @@ header h1 span {
 }
 
 header {
-  border-bottom: var(--bs-border-width) var(--bs-border-style)
-    var(--bs-border-color) !important;
+  /* border-bottom: var(--bs-border-width) var(--bs-border-style)
+    var(--bs-border-color) !important; */
 }
 
 .navbar-subnav {
@@ -160,6 +164,8 @@ header .link-login {
 
 .dog-img {
   object-fit: cover;
+  /* border-top-left-radius: 5px;
+  border-top-right-radius: 5px; */
 }
 
 .svg-mascota {
@@ -221,6 +227,32 @@ header .link-login {
 
 .color-success {
   color: #198754;
+}
+
+.main-bg {
+  /* background-image: linear-gradient(63.34deg, #fff5eb 100%, #f4f2f9 100%); */
+  /* background: linear-gradient(
+    0deg,
+    rgba(0, 89, 255, 0.3),
+    rgba(255, 255, 255, 1)
+  ); */
+
+  background-image: url(https://cdn.wallpapersafari.com/91/60/M9k5Ka.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100%;
+  z-index: -10;
+}
+
+.urgente-div {
+  background-color: #d6293d99;
 }
 
 @media screen and (max-width: 1024px) {

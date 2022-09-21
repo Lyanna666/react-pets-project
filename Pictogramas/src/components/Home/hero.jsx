@@ -82,33 +82,9 @@ const Hero = props => {
       )}
       <div className="hero-div">
         <p> {context.language.NAME_APP}</p>
-        <h1>{context.language.HERO_TITLE}</h1>
-        {!user ? (
-          <>
-            <p>{context.language.HERO_SUBTITLE}</p>
-            <CustomLink
-              name={context.language.HERO_BUTTON}
-              color="green"
-              url="/login"
-            />
-            <div>
-              <CustomButton
-                type="button"
-                name={context.language.HERO_NO_SIGNUP}
-                color="blue"
-                onClick={onClickContinue}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <CustomLink
-              name={context.language.DASHBOARD}
-              color="blue"
-              url="/dashboard"
-            />
-          </>
-        )}
+        <h1>¿Estás pensando en adoptar?</h1>
+
+        <CustomLink name="Ver perros en adopción" color="blue" url="/perros" />
       </div>
     </>
   );

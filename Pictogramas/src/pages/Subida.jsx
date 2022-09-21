@@ -7,10 +7,13 @@ import Header from '../components/Header/header';
 import Footer from '../components/Footer/footer';
 import firebase from 'firebase/compat/app';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import Animales from '../components/Filtros/Animales';
 
 // import { createPath } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+import FirestoreService from '../api/services/FirestoreService';
 
 function Subida() {
   const context = useContext(AppContext);
@@ -19,7 +22,7 @@ function Subida() {
   const [isLoading, setIsLoading] = useState(false);
   const [recaptcha, setRecaptcha] = useState(null);
   const [validate, setValidated] = useState(false);
-
+  const [publicaciones, setPublicaciones] = useState([]);
   const [editando, setEditando] = useState(false);
   const [storageRef, setStorageRef] = useState(null);
 
@@ -37,6 +40,7 @@ function Subida() {
         setImageAsUrl(u._delegate.photoURL);
         setIsLoading(false);
         console.log(u);
+        fetchPublicaciones(u._delegate.uid);
       } else {
         setUser(null);
         setIsLoading(false);
@@ -72,21 +76,26 @@ function Subida() {
 
   const registrarse = e => {
     e.preventDefault();
-    const { email, password } = e.target.elements;
+    const { email, pass2, pass1 } = e.target.elements;
     console.log(e.target.elements);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email.value, password.value)
-      .then(userCredentails => {
-        var user = userCredentails.user;
-        alert('Registro correcto');
-        setUser(user);
-        setValidated(true);
-      })
-      .catch(e => {
-        alert(e.message);
-        setValidated(true);
-      });
+
+    if (pass2 !== pass1 && pass1.lenght > 5) {
+      alert('Las contraseñas no coinciden o no cumplen los requisitos.');
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email.value, pass1.value)
+        .then(userCredentails => {
+          var user = userCredentails.user;
+          alert('Registro correcto');
+          setUser(user);
+          setValidated(true);
+        })
+        .catch(e => {
+          alert(e.message);
+          setValidated(true);
+        });
+    }
   };
 
   const cerrarSesion = () => {
@@ -104,6 +113,37 @@ function Subida() {
       });
   };
 
+  function fetchPublicaciones(idUsuario) {
+    console.log('Cargando publicaciones del user ' + idUsuario);
+    setIsLoading(true);
+    FirestoreService.getPerrosById(idUsuario)
+      .then(response => {
+        setPublicaciones(response._delegate._snapshot.docChanges);
+        console.log('Publicaciones:', response._delegate._snapshot.docChanges);
+        setIsLoading(false);
+      })
+      .catch(e => {
+        setIsLoading(false);
+        alert('Error al cargar los perros: ' + e);
+      });
+  }
+
+  function eliminarPerro(idPublicacion) {
+    console.log('Eliminando publicacion ', idPublicacion);
+    setIsLoading(true);
+    FirestoreService.deletePerro(idPublicacion)
+      .then(response => {
+        // setPublicaciones(response._delegate._snapshot.docChanges);
+        console.log('Respuesta: ELIMINAR PUBLICACIÓN ********\n', response);
+        window.location.reload();
+        setIsLoading(false);
+      })
+      .catch(e => {
+        setIsLoading(false);
+        alert('Error al cargar los perros: ' + e);
+      });
+  }
+
   const cambiarImagenPerfil = event => {
     console.log(event);
     var file = event.target.files[0];
@@ -118,12 +158,10 @@ function Subida() {
     uploadTask.on(
       'state_changed',
       snapShot => {
-        //takes a snap shot of the process as it is happening
         console.log(snapShot);
         setIsLoading(true);
       },
       err => {
-        //catches the errors
         console.log(err);
         setIsLoading(false);
       },
@@ -133,7 +171,7 @@ function Subida() {
             console.log('URL de la nueva imagen', url);
             const imageURL = url;
 
-            // Now you have valid `imageURL` from async call
+            //  `imageURL` from async call
             var usuarioModificado = user;
             console.log('Usuario a modificar:', usuarioModificado);
             usuarioModificado
@@ -182,7 +220,14 @@ function Subida() {
             displayName: nombre.value,
           })
           .then(() => {
-            updateProfilePhoneNumber(tlf.value);
+            if (tlf && tlf.length === 11) {
+              updateProfilePhoneNumber(tlf.value);
+            } else {
+              setIsLoading(false);
+
+              setEditando(false);
+              window.refresh();
+            }
           })
           .catch(error => {
             alert(
@@ -256,26 +301,68 @@ function Subida() {
     }
   }
 
+  function cancelarEditando(e) {
+    // e.preventDefault();
+    setEditando(false);
+    // return false;
+  }
+
+  const eliminarPublicacion = event => {
+    console.log('Eliminando ', event.target.id);
+    if (
+      window.confirm('¿Estás seguro de que quieres eliminar esta publicación?')
+    ) {
+      const idPublicacion = event.target.id;
+      // eliminarPerro(idPublicacion);
+      deleteFolder(idPublicacion + '/', idPublicacion);
+    }
+
+    function deleteFolder(path, idPerro) {
+      setIsLoading(true);
+      const ref = firebase.storage().ref(path);
+      ref
+        .listAll()
+        .then(dir => {
+          dir.items.forEach(fileRef => deleteFile(ref.fullPath, fileRef.name));
+          dir.prefixes.forEach(folderRef => deleteFolder(folderRef.fullPath));
+          setIsLoading(false);
+          eliminarPerro(idPerro);
+        })
+        .catch(error => {
+          console.log('Error eliminacion', error);
+          setIsLoading(false);
+        });
+    }
+
+    function deleteFile(pathToFile, fileName) {
+      const ref = firebase.storage().ref(pathToFile);
+      const childRef = ref.child(fileName);
+      childRef.delete();
+    }
+  };
+
   return (
     <>
       <Header />
+      <div class="main-bg" />
       {isLoading ? <Spinner allWindow={true} /> : <></>}
       <>
         {user === null ? (
           <>
             <div className="container-size mt-4 mb-4">
-              <div class="row justify-content-center align-items-center m-4">
+              <div class="row justify-content-center align-items-start m-4">
                 <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2 card p-4">
                   {/* <img
                   src="https://media-public.canva.com/U7YhY/MAD9WpU7YhY/1/tl.png"
                   alt=""
                   class="img-fluid"
                 /> */}
-                  <div class="mb-lg-9 mb-5">
+                  <div class="mb-lg-9 mb-2">
                     <h1 class="mb-1 h2 fw-normal">Login</h1>
                     <p class="fw-normal">
-                      Inicia sesión en <span class="fw-bold">Adogta</span> para
-                      publicar anuncios y guardar en favoritos.
+                      ¿Ya estás registrado? Inicia sesión en{' '}
+                      <span class="fw-bold">ADOGTA</span> para publicar anuncios
+                      y guardar en favoritos.
                     </p>
                   </div>
 
@@ -318,32 +405,48 @@ function Subida() {
                           Inciar sesión
                         </button>
                       </div>
-                      <div>
-                        ¿Todavía no estás registrado? {'  '}
-                        <a
-                          class="link-primary fw-bold"
-                          href="../pages/signup.html"
-                        >
-                          {' '}
-                          ¡Regístrate ahora!
-                        </a>
-                      </div>
+                    </div>
+                  </form>
+                  <div class="mt-4 mb-3 fw-bold">
+                    También puedes iniciar sesión con tu teléfono móvil. {'  '}
+                  </div>
+                  <form>
+                    <div class="col-12 input-group">
+                      <input
+                        type="text"
+                        name="tlf"
+                        class="form-control border-success"
+                        placeholder="Teléfono móvil"
+                        aria-describedby="button-tlf"
+                      />
+                      <button
+                        class="btn btn-success"
+                        type="button"
+                        id="button-tlf"
+                      >
+                        Iniciar sesión
+                      </button>
                     </div>
                   </form>
                 </div>
 
                 <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1 card p-4">
-                  <div class="mb-lg-9 mb-5">
+                  <div class="mb-lg-9 mb-2">
                     <h1 class="mb-1 h2 fw-normal">Registro</h1>
+                    <p class="fw-normal">
+                      Regístrate en <span class="fw-bold">ADOGTA</span> para
+                      publicar anuncios y guardar en favoritos.
+                    </p>
                   </div>
 
-                  <form>
+                  <form onSubmit={registrarse}>
                     <div class="row g-3">
                       <div class="col-12">
                         <input
-                          type="email"
+                          type="email-registro"
+                          name="email"
                           class="form-control"
-                          id="inputEmail4"
+                          id="inputEmailRe"
                           placeholder="Email"
                           required=""
                         />
@@ -352,7 +455,8 @@ function Subida() {
                         <input
                           type="password"
                           class="form-control"
-                          id="inputPassword4"
+                          name="pass1"
+                          id="inputPasswordRe"
                           placeholder="Contraseña"
                           required=""
                         />
@@ -361,37 +465,18 @@ function Subida() {
                         <input
                           type="password"
                           class="form-control"
-                          id="inputPassword4"
+                          name="pass2"
+                          id="inputPasswordRe"
                           placeholder="Confirmar contraseña"
                           required=""
                         />
                       </div>
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          ¿Has olvidado tu contraseña? {'  '}
-                          <a
-                            class="link-primary fw-bold"
-                            href="../pages/forgot-password.html"
-                          >
-                            Recuperar
-                          </a>
-                        </div>
-                      </div>
+                      <div class="d-flex justify-content-between" />
                       <div class="col-12 d-grid">
                         {' '}
                         <button type="submit" class="btn btn-primary">
-                          Inciar sesión
+                          Registrarse
                         </button>
-                      </div>
-                      <div>
-                        ¿Todavía no estás registrado? {'  '}
-                        <a
-                          class="link-primary fw-bold"
-                          href="../pages/signup.html"
-                        >
-                          {' '}
-                          ¡Regístrate ahora!
-                        </a>
                       </div>
                     </div>
                   </form>
@@ -679,9 +764,11 @@ function Subida() {
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex flex-column mb-3 justify-content-center text-center">
-                    <h1 class="mb-1 h2 fw-normal">Datos personales</h1>
-                    <div class="mr-4 ml-4 p-4">
+                  <div class="d-flex flex-column mb-3 m-4 p-3 card">
+                    <h5 class="ml-4 mb-1 h4 pl-4 fw-bold">
+                      {'  '}Datos personales
+                    </h5>
+                    <div class=" p-4 justify-content-center text-center">
                       <form onSubmit={modificarUsuario}>
                         <table class="table">
                           <thead>
@@ -796,6 +883,13 @@ function Subida() {
                             <button type="submit" className="btn btn-success">
                               Guardar cambios
                             </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger m-2"
+                              onClick={cancelarEditando}
+                            >
+                              Cancelar
+                            </button>
                           </>
                         ) : (
                           <></>
@@ -803,13 +897,21 @@ function Subida() {
                       </form>
                     </div>
                   </div>
+                  <div class="d-flex flex-column mb-3 m-4 p-3 card">
+                    <h5 class="ml-4 mb-1 h4 pl-4 fw-bold">Publicaciones</h5>
+                    <Animales
+                      mascotas={publicaciones}
+                      perfil={true}
+                      eliminarPublicacion={eliminarPublicacion}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </>
         )}
       </>
-
+      <div className="main-bg" />
       <Footer />
     </>
   );

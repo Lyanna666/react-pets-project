@@ -6,6 +6,7 @@ import AppContext from './AppContext';
 import Home from './pages/Home';
 import Gallery from './pages/Gallery';
 import Subidas from './pages/Subida';
+import DetallePerro from './pages/DetallePerro';
 import NuevaPublicacion from './pages/NuevaPublicacion';
 
 import Login from './pages/Login';
@@ -13,6 +14,7 @@ import Register from './pages/Registrer';
 import Dashboard from './pages/Dashboard';
 import Detail from './pages/Detail';
 import Routines from './pages/Routines';
+import Informacion from './pages/Informacion';
 
 import * as constantsSpanish from './Constants/spanish';
 import * as constantsEnglish from './Constants/english';
@@ -58,9 +60,12 @@ const App = () => {
   return (
     <AppContext.Provider value={userSettings}>
       <Routes>
-        <Route exact path="/" element={<Gallery />} />
+        <Route exact path="/perros" element={<Gallery />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/info" element={<Informacion />} />
         <Route exact path="/subida" element={<Subidas />} />
         <Route exact path="/nuevapublicacion" element={<NuevaPublicacion />} />
+        <Route path="/perros/:id" element={<DetallePerro />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/registrer" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />

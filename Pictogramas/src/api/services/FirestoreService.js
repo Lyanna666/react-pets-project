@@ -31,6 +31,34 @@ function getPerros() {
   });
 }
 
+function getPerrosOrder(orderId) {
+  return new Promise((resolve, reject) => {
+    db.collection('perros')
+      .orderBy(orderId)
+      .get()
+      .then(perros => {
+        resolve(perros);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+
+function getPerrosById(usuarioId) {
+  return new Promise((resolve, reject) => {
+    db.collection('perros')
+      .where('user', '==', usuarioId)
+      .get()
+      .then(perros => {
+        resolve(perros);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+
 function addPerro(perro) {
   return new Promise((resolve, reject) => {
     const data = {
@@ -59,6 +87,33 @@ function addPerro(perro) {
   });
 }
 
+function deletePerro(perroId) {
+  return new Promise((resolve, reject) => {
+    db.collection('perros')
+      .doc(perroId)
+      .delete()
+      .then(() => {
+        resolve();
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+
+function getPerro(perroId) {
+  return new Promise((resolve, reject) => {
+    db.collection('perros')
+      .doc(perroId)
+      .get()
+      .then(perro => {
+        resolve(perro);
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
 //Imagenes
 
 function updateFotosPerros(fotoURL, idPerro) {
@@ -339,4 +394,8 @@ export default {
   getPerros,
   addPerro,
   updateFotosPerros,
+  getPerrosById,
+  deletePerro,
+  getPerro,
+  getPerrosOrder,
 };

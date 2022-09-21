@@ -8,11 +8,14 @@ import ReactPaginate from 'react-paginate';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import FirestoreService from '../../api/services/FirestoreService';
+import { Link } from 'react-router-dom';
 
 const Animales = props => {
   const context = useContext(AppContext);
   const [usuario, setUsuario] = useState(null);
-  const [mascotas, setMascotas] = useState([]);
+  const [mascotas, setMascotas] = useState(props.mascotas);
+  const [actualizacion, setActualizacion] = useState(1);
+  const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [vista, setVista] = useState(0);
@@ -23,13 +26,60 @@ const Animales = props => {
     () => {
       setMascotas(props.mascotas);
     },
-    [props.mascotas],
+    [props.mascotas, props.actualizar],
   );
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      // When storage changes refetch
+
+      console.log('Cambio favoritos');
+
+      const tempArray = arrayFavoritos();
+      console.log(tempArray);
+      setFavoritos(tempArray);
+    });
+
+    return () => {
+      // When the component unmounts remove the event listener
+      window.removeEventListener('storage', null);
+    };
+  }, []);
+
+  useEffect(() => {
+    const tempArray = arrayFavoritos();
+    console.log(tempArray);
+    setFavoritos(tempArray);
+  }, []);
 
   function cambiarVista(event) {
     console.log(event.target.id);
     event.target.id === 'vista-flex' ? setVista(0) : setVista(1);
   }
+
+  const marcarFavorito = (perro, id) => {
+    // localStorage.clear();
+    console.log(localStorage, '*****', favoritos);
+    if (localStorage.getItem(id)) {
+      console.log('Favorito remove ', localStorage);
+      localStorage.removeItem(id);
+    } else {
+      localStorage.setItem(id, id);
+      console.log('Favorito add', localStorage);
+    }
+
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const arrayFavoritos = () => {
+    let tempArray = [];
+    Object.keys(localStorage).forEach(data => {
+      let item = localStorage.getItem(data);
+      tempArray.push(item);
+    });
+
+    return tempArray;
+  };
 
   return (
     <>
@@ -39,7 +89,11 @@ const Animales = props => {
             <p class="mb-3 mb-md-0  ">
               {' '}
               <span class="fw-bold">{mascotas.length}</span>{' '}
-              <span class="text-muted">perros disponibles para adoptar</span>
+              <span class="text-muted">
+                {props.perfil
+                  ? 'publicaciones'
+                  : 'perros disponibles para adoptar'}
+              </span>
             </p>
           </div>
 
@@ -74,13 +128,6 @@ const Animales = props => {
               </svg>
             </button>
 
-            <div class="me-2 fs-6">
-              <select class="form-select" aria-label="Default select example">
-                <option selected="20">Mostrar 20</option>
-                <option value="10">Mostrar 10</option>
-              </select>
-            </div>
-
             <div>
               <div class="dropdown">
                 <button
@@ -91,9 +138,29 @@ const Animales = props => {
                 >
                   Ordenar por
                 </button>
+                <button
+                  class="btn btn-danger m-2"
+                  type="button"
+                  onClick={props.filtrarPorFavoritos}
+                >
+                  Ver favoritos {'  '}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    />
+                  </svg>
+                </button>
                 <ul class="dropdown-menu">
                   <li>
-                    <button class="btn">
+                    <button class="btn" id="nombre" onClick={props.ordenar}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -112,7 +179,7 @@ const Animales = props => {
                     </button>
                   </li>
                   <li>
-                    <button class="btn">
+                    <button class="btn" id="fechaNac" onClick={props.ordenar}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -132,22 +199,23 @@ const Animales = props => {
                     </button>
                   </li>
                   <li>
-                    <button class="btn">
+                    <button class="btn" id="raza" onClick={props.ordenar}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
+                        width="16"
+                        height="16"
                         fill="currentColor"
-                        class="bi bi-calendar"
+                        class="bi bi-bookmarks-fill"
                         viewBox="0 0 16 16"
                       >
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                        <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z" />
+                        <path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z" />
                       </svg>{' '}
-                      Más recientes
+                      Raza
                     </button>
                   </li>
                   <li>
-                    <button class="btn">
+                    <button class="btn" id="urgente" onClick={props.ordenar}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -172,7 +240,7 @@ const Animales = props => {
         <div
           className={
             vista === 0
-              ? 'd-flex flex-wrap justify-content-center align-items-center'
+              ? 'd-flex flex-wrap justify-content-center align-items-strech'
               : ''
           }
         >
@@ -183,6 +251,7 @@ const Animales = props => {
                 style={vista === 0 ? { width: '20rem' } : { width: '100%' }}
               >
                 <div class={vista === 1 ? 'row g-0' : 'card-img-top'}>
+                  {' '}
                   <div class={vista === 1 ? 'col-md-4' : ''}>
                     <div
                       id={
@@ -216,13 +285,46 @@ const Animales = props => {
                                           class="d-block w-100 h-100 dog-img"
                                           alt="..."
                                         />
+                                        {mascota.doc.data.value.mapValue.fields
+                                          .urgente ? (
+                                          mascota.doc.data.value.mapValue.fields
+                                            .urgente.stringValue === 'si' ? (
+                                            <div class="card-img-overlay  fw-bold text-color-light m-0 p-0">
+                                              <div class="card-header text-bg-danger m-0 ">
+                                                ¡URGENTE!
+                                              </div>
+                                              <div />
+                                            </div>
+                                          ) : (
+                                            <></>
+                                          )
+                                        ) : (
+                                          <></>
+                                        )}
                                       </>
                                     ) : (
-                                      <img
-                                        src={imagenMascota.stringValue}
-                                        class="d-block w-100 h-100 dog-img"
-                                        alt="..."
-                                      />
+                                      <>
+                                        <img
+                                          src={imagenMascota.stringValue}
+                                          class="d-block w-100 h-100 dog-img"
+                                          alt="..."
+                                        />{' '}
+                                        {mascota.doc.data.value.mapValue.fields
+                                          .urgente ? (
+                                          mascota.doc.data.value.mapValue.fields
+                                            .urgente.stringValue === 'si' ? (
+                                            <div class="card-img-overlay text-center fw-bold text-color-light m-0 p-0">
+                                              <div class="card-header urgente-div text-bg-danger m-0 ">
+                                                ¡URGENTE!
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <></>
+                                          )
+                                        ) : (
+                                          <></>
+                                        )}
+                                      </>
                                     )}
                                   </div>
                                 </>
@@ -244,22 +346,6 @@ const Animales = props => {
                             </div>
                           </>
                         )}
-
-                        {/* <div class="carousel-item active">
-                        <img
-                          style={{ height: '15rem' }}
-                          src="https://notasdemascotas.com/wp-content/uploads/2017/03/bulldog-frances-696x461.jpg"
-                          class="d-block w-100 rounded dog-img"
-                          alt="..."
-                        />
-                      </div>
-                      <div class="carousel-item" style={{ height: '15rem' }}>
-                        <img
-                          src="https://www.hogarmania.com/archivos/201105/bulldog-frances-3-xl-668x400x80xX.jpg"
-                          class="d-block w-100 h-100 rounded dog-img"
-                          alt="..."
-                        />
-                      </div> */}
                       </div>
                       <button
                         class="carousel-control-prev"
@@ -329,6 +415,7 @@ const Animales = props => {
                             .stringValue
                         }
                       </h5>
+
                       <table class="table table-bordered table-sm w-100 mb-3 p-1">
                         <tr>
                           <th class="fw-normal">Sexo:</th>
@@ -361,18 +448,63 @@ const Animales = props => {
 
                       <div className="d-flex justify-content-between">
                         <div>
-                          <button type="button" class="btn text-danger">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              class="bi bi-heart-fill"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                            </svg>
-                          </button>
+                          {favoritos.indexOf(
+                            mascota.doc.key.path.segments[6],
+                          ) >= 0 ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  marcarFavorito(
+                                    mascota.doc.data.value.mapValue.fields,
+                                    mascota.doc.key.path.segments[6],
+                                  )
+                                }
+                                name={mascota.doc.key.path.segments[6]}
+                                type="button"
+                                class="btn text-danger"
+                              >
+                                {' '}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  class="bi bi-heart-fill"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  />
+                                </svg>{' '}
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                type="button"
+                                class="btn text-danger"
+                                name={mascota.doc.key.path.segments[6]}
+                                onClick={() =>
+                                  marcarFavorito(
+                                    mascota.doc.data.value.mapValue.fields,
+                                    mascota.doc.key.path.segments[6],
+                                  )
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  class="bi bi-heart-fill"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                </svg>
+                              </button>
+                            </>
+                          )}
                           <button type="button" class="btn ">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -386,10 +518,38 @@ const Animales = props => {
                             </svg>
                           </button>
                         </div>
-                        <a href="#" class="btn btn-primary">
+                        <Link
+                          class="btn btn-primary"
+                          to={`/perros/${mascota.doc.key.path.segments[6]}`}
+                        >
                           Ver detalle
-                        </a>
+                        </Link>
                       </div>
+                      {props.perfil ? (
+                        <>
+                          {' '}
+                          <button
+                            type="button"
+                            id={mascota.doc.key.path.segments[6]}
+                            class="btn w-100 mt-3 btn-danger"
+                            onClick={props.eliminarPublicacion}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-trash-fill"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                            </svg>
+                            {'  '} Eliminar publicación
+                          </button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -398,6 +558,7 @@ const Animales = props => {
           ))}
         </div>
       </section>
+      <dib className="main-bg" />
     </>
   );
 };

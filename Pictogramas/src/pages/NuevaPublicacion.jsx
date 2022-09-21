@@ -19,6 +19,7 @@ function NuevaPublicacion() {
   const [user, setUser] = useState(null);
   const [fotos, setFotos] = useState([]);
   const [files, setFiles] = useState([]);
+  const [publicaciones, setPublicaciones] = useState([]);
   const [razas, setRazas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -209,6 +210,7 @@ function NuevaPublicacion() {
 
   return (
     <>
+      <div className="main-bg" />
       <Header />
       {isLoading ? <Spinner allWindow={true} /> : <></>}
       <>
